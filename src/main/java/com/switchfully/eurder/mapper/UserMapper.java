@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
 
     public User mapCreateUserDtoToUser(CreateUserDto createUserDto, Role role) {
-        return new User(createUserDto.getFirstName(), createUserDto.getLastName(), createUserDto.getEmail(), createUserDto.getAddress(), createUserDto.getPhoneNumber(), createUserDto.getRole(), createUserDto.getPassword());
+        return new User(createUserDto.getFirstName(), createUserDto.getLastName(), createUserDto.getEmail(), createUserDto.getAddress(), createUserDto.getPhoneNumber(), role, createUserDto.getPassword());
     }
 
     public UserDto mapUserToUserDto(User user) {
