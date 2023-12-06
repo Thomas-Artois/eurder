@@ -36,6 +36,13 @@ public class UserController {
         return userService.getAllCustomers();
     }
 
+    @GetMapping(path = "/{id}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDto viewCustomer(@RequestParam String email, @RequestParam String password, @PathVariable String id) {
+        userService.checkIfUserIsAdmin(email, password);
+        return userService.getCustomerBasedOnId(id);
+    }
+
 
 
 

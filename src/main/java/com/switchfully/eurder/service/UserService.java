@@ -56,4 +56,9 @@ public class UserService {
             throw new PasswordIsIncorrectException();
         }
     }
+
+    public UserDto getCustomerBasedOnId(String id) {
+        User user =  userRepository.getCustomerBasedOnId(id);
+        return userMapper.mapUserToUserDto(user);
+    }
 }

@@ -6,6 +6,7 @@ import com.switchfully.eurder.domain.User;
 import com.switchfully.eurder.dto.CreateUserDto;
 import com.switchfully.eurder.dto.UserDto;
 import com.switchfully.eurder.exception.EmailAlreadyExistsException;
+import com.switchfully.eurder.exception.NotAnAdminException;
 import com.switchfully.eurder.mapper.UserMapper;
 import com.switchfully.eurder.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,5 +74,17 @@ public class UserServiceTest {
         assertThat(userService.getAllCustomers()).allSatisfy(userDto -> assertThat(userDto).isInstanceOf(UserDto.class));
         assertThat(userService.getAllCustomers()).allSatisfy(userDto -> assertThat(userDto.getRole()).isEqualTo(Role.CUSTOMER));
     }
+
+    @Test
+    void whenGetCustomer_thenOneCustomerUserDtoIsReturned() {
+        //GIVEN
+        User userToCheck = userRepository.getUserByEmail("jozef@hotmail.com");
+
+        //WHEN & THEN
+        assertThat(userService.getCustomerBasedOnId(userToCheck.getId())).isInstanceOf(UserDto.class);
+        assertThat(userService.getCustomerBasedOnId(userToCheck.getId()).getFirstName()).isEqualTo("Jozef");
+    }
+
+
 
 }
