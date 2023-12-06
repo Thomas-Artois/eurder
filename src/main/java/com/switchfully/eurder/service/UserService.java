@@ -4,6 +4,7 @@ import com.switchfully.eurder.domain.Role;
 import com.switchfully.eurder.domain.User;
 import com.switchfully.eurder.dto.CreateUserDto;
 import com.switchfully.eurder.dto.UserDto;
+import com.switchfully.eurder.exception.InvalidUserRegistrationException;
 import com.switchfully.eurder.mapper.UserMapper;
 import com.switchfully.eurder.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -27,4 +28,18 @@ public class UserService {
     public UserDto createCustomer(CreateUserDto createUserDto) {
         return createUser(createUserDto, Role.CUSTOMER);
     }
+
+    public UserDto createAdmin(CreateUserDto createUserDto) {
+        return createUser(createUserDto, Role.ADMIN);
+    }
+
+//    public void checkIfUserRegistrationIsCorrect(CreateUserDto createUserDto, Role role) throws InvalidUserRegistrationException {
+//        try {
+//            userRepository.createUser(userMapper.mapCreateUserDtoToUser(createUserDto, role));
+//        } catch (InvalidUserRegistrationException exception) {
+//
+//        }
+//    }
+
+//    public void checkIfPasswordIsCorrect() throws
 }

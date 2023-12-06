@@ -17,7 +17,7 @@ public class UserRepository {
     public UserRepository() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         Address adminAddress = new Address("adminStreet", "4DM1N", "3000", "adminCity");
-        User adminUser = new User("admin", "adminLast", "admin@eurder.com", adminAddress, "0496334455", Role.ADMIN, "adminPassword");
+        User adminUser = new User("admin", "adminLast", "admin@eurder.com", adminAddress, "0496334455", Role.ADMIN, bCryptPasswordEncoder.encode("adminPassword"));
 
         this.createUser(adminUser);
 
@@ -26,9 +26,9 @@ public class UserRepository {
         Address customerThreeAddress = new Address("Jozeflaan", "3030", "5050", "Timboektoe");
 
         List<User> listOfUsers = List.of(
-                new User("Bart", "Bartmans", "bart@hotmail.com", customerOneAddress, "0474112233", Role.CUSTOMER, "bartPassword"),
-                new User("Maria", "Mariavrouw", "maria@hotmail.com", customerTwoAddress, "0546334455", Role.CUSTOMER, "mariaPassword"),
-                new User("Jozef", "Timmermans", "jozef@hotmail.com", customerThreeAddress, "0482007007", Role.CUSTOMER, "jozefPassword")
+                new User("Bart", "Bartmans", "bart@hotmail.com", customerOneAddress, "0474112233", Role.CUSTOMER, bCryptPasswordEncoder.encode("bartPassword")),
+                new User("Maria", "Mariavrouw", "maria@hotmail.com", customerTwoAddress, "0546334455", Role.CUSTOMER, bCryptPasswordEncoder.encode("mariaPassword")),
+                new User("Jozef", "Timmermans", "jozef@hotmail.com", customerThreeAddress, "0482007007", Role.CUSTOMER, bCryptPasswordEncoder.encode("jozefPassword"))
         );
 
         listOfUsers.forEach(this::createUser);

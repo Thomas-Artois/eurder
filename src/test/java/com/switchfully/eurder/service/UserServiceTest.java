@@ -37,4 +37,9 @@ public class UserServiceTest {
         assertThat(userRepository.getAllUsers()).allSatisfy(user -> assertThat(user).isInstanceOf(User.class));
         assertThat(userRepository.getAllUsers()).contains(validUser);
     }
+
+    @Test
+    void givenInvalidUser_whenCreateUser_thenInvalidUserRegistrationExceptionIsThrown() {
+
+    }
 }
