@@ -14,10 +14,6 @@ public class UserDto {
     private String phoneNumber;
     private Role role;
 
-//    public UserDto(String firstName, String lastName, String email, Address address, String phoneNumber, Role role) {
-//        this(UUID.randomUUID().toString(), firstName, lastName, email, address, phoneNumber, role);
-//    }
-
     public UserDto(String id, String firstName, String lastName, String email, Address address, String phoneNumber, Role role) {
         this.id = id;
         this.firstName = firstName;

@@ -3,12 +3,15 @@ package com.switchfully.eurder.repository;
 import com.switchfully.eurder.domain.Address;
 import com.switchfully.eurder.domain.Role;
 import com.switchfully.eurder.domain.User;
+import com.switchfully.eurder.exception.EmailAlreadyExistsException;
+import com.switchfully.eurder.exception.UserNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class UserRepository {
@@ -44,4 +47,17 @@ public class UserRepository {
         return users.values().stream().toList();
     }
 
+    public List<User> getAllCustomers() {
+        return users.values().stream().filter(user -> user.getRole().equals(Role.CUSTOMER)).collect(Collectors.toList());
+    }
+
+    public User getUserByEmail(String email) throws UserNotFoundException {
+        return users.values().stream().filter(user -> user.getEmail().equals(email)).findFirst().orElseThrow(UserNotFoundException::new);
+    }
+
+    public void checkIfEmailExists(String email) throws EmailAlreadyExistsException {
+        if (users.values().stream().anyMatch(user -> user.getEmail().equals(email))) {
+            throw new EmailAlreadyExistsException();
+        }
+    }
 }

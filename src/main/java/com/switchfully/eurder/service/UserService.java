@@ -4,13 +4,20 @@ import com.switchfully.eurder.domain.Role;
 import com.switchfully.eurder.domain.User;
 import com.switchfully.eurder.dto.CreateUserDto;
 import com.switchfully.eurder.dto.UserDto;
-import com.switchfully.eurder.exception.InvalidUserRegistrationException;
+import com.switchfully.eurder.exception.EmailAlreadyExistsException;
+import com.switchfully.eurder.exception.NotAnAdminException;
+import com.switchfully.eurder.exception.PasswordIsIncorrectException;
 import com.switchfully.eurder.mapper.UserMapper;
 import com.switchfully.eurder.repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
     private UserMapper userMapper;
     private UserRepository userRepository;
 
@@ -19,7 +26,9 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public UserDto createUser(CreateUserDto createUserDto, Role role) {
+    public UserDto createUser(CreateUserDto createUserDto, Role role) throws EmailAlreadyExistsException {
+        userRepository.checkIfEmailExists(createUserDto.getEmail());
+
 
         User user = userRepository.createUser(userMapper.mapCreateUserDtoToUser(createUserDto, role));
         return userMapper.mapUserToUserDto(user);
@@ -29,17 +38,22 @@ public class UserService {
         return createUser(createUserDto, Role.CUSTOMER);
     }
 
-    public UserDto createAdmin(CreateUserDto createUserDto) {
-        return createUser(createUserDto, Role.ADMIN);
+    public List<UserDto> getAllCustomers() {
+        return userRepository.getAllCustomers().stream().map(user -> userMapper.mapUserToUserDto(user)).collect(Collectors.toList());
     }
 
-//    public void checkIfUserRegistrationIsCorrect(CreateUserDto createUserDto, Role role) throws InvalidUserRegistrationException {
-//        try {
-//            userRepository.createUser(userMapper.mapCreateUserDtoToUser(createUserDto, role));
-//        } catch (InvalidUserRegistrationException exception) {
-//
-//        }
-//    }
+    public void checkIfUserIsAdmin(String email, String password) throws NotAnAdminException{
+        User user = userRepository.getUserByEmail(email);
+        checkIfPasswordIsCorrect(user, password);
 
-//    public void checkIfPasswordIsCorrect() throws
+        if (user.getRole() != Role.ADMIN) {
+            throw new NotAnAdminException();
+        }
+    }
+
+    public void checkIfPasswordIsCorrect(User user, String password) throws PasswordIsIncorrectException{
+        if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
+            throw new PasswordIsIncorrectException();
+        }
+    }
 }
