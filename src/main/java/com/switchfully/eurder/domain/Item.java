@@ -1,5 +1,6 @@
 package com.switchfully.eurder.domain;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Item {
@@ -18,6 +19,13 @@ public class Item {
         this.description = description;
         this.price = price;
         this.amountInStock = amountInStock;
+    }
+
+    public Item() {
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getId() {
@@ -54,5 +62,28 @@ public class Item {
 
     public void setAmountInStock(int amountInStock) {
         this.amountInStock = amountInStock;
+    }
+
+    public Item deepCopy() {
+        Item copy = new Item();
+        copy.setId(this.getId());
+        copy.setName(this.getName());
+        copy.setDescription(this.getDescription());
+        copy.setPrice(this.getPrice());
+        copy.setAmountInStock(this.getAmountInStock());
+        return copy;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return Double.compare(price, item.price) == 0 && amountInStock == item.amountInStock && Objects.equals(id, item.id) && Objects.equals(name, item.name) && Objects.equals(description, item.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, price, amountInStock);
     }
 }

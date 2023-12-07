@@ -1,6 +1,7 @@
 package com.switchfully.eurder.repository;
 
 import com.switchfully.eurder.domain.Item;
+import com.switchfully.eurder.exception.ItemNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -30,6 +31,10 @@ public class ItemRepository {
 
     public List<Item> getAllItems() {
         return items.values().stream().toList();
+    }
+
+    public Item getItemById(String id) throws ItemNotFoundException{
+        return items.values().stream().filter(item -> item.getId().equals(id)).findFirst().orElseThrow(ItemNotFoundException::new);
     }
 
 
