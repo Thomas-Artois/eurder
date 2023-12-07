@@ -3,9 +3,11 @@ package com.switchfully.eurder.repository;
 import com.switchfully.eurder.domain.Item;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class ItemRepository {
@@ -24,6 +26,10 @@ public class ItemRepository {
     public Item createItem(Item item) {
         items.put(item.getId(), item);
         return item;
+    }
+
+    public List<Item> getAllItems() {
+        return items.values().stream().toList();
     }
 
 

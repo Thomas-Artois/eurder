@@ -7,6 +7,9 @@ import com.switchfully.eurder.mapper.ItemMapper;
 import com.switchfully.eurder.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ItemService {
     private ItemMapper itemMapper;
@@ -24,5 +27,9 @@ public class ItemService {
 
         Item item = itemRepository.createItem(itemMapper.mapCreateItemDtoToItem(createItemDto));
         return itemMapper.mapItemToItemDto(item);
+    }
+
+    public List<ItemDto> getAllItems() {
+        return itemRepository.getAllItems().stream().map(item -> itemMapper.mapItemToItemDto(item)).collect(Collectors.toList());
     }
 }

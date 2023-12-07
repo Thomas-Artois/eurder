@@ -1,5 +1,6 @@
 package com.switchfully.eurder.dto;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class ItemDto {
@@ -51,5 +52,18 @@ public class ItemDto {
 
     public void setAmountInStock(int amountInStock) {
         this.amountInStock = amountInStock;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemDto itemDto = (ItemDto) o;
+        return Double.compare(price, itemDto.price) == 0 && amountInStock == itemDto.amountInStock && Objects.equals(id, itemDto.id) && Objects.equals(name, itemDto.name) && Objects.equals(description, itemDto.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, price, amountInStock);
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class UserControllerIntegrationTest {
     UserRepository userRepository;
     @Autowired
     UserController userController;
+    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     @LocalServerPort
     private int port;
