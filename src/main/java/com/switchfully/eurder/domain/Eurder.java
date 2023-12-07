@@ -1,29 +1,27 @@
 package com.switchfully.eurder.domain;
 
-import com.switchfully.eurder.repository.UserRepository;
-
 import java.util.*;
 
 public class Eurder {
     private String id;
-    private List<EurderLine> eurderList;
+    private List<EurderLine> eurderLineList;
     private User user;
     private double totalPrice;
 
-    public Eurder(List<EurderLine> eurderList, User user) {
-        this(UUID.randomUUID().toString(), eurderList, user);
+    public Eurder(List<EurderLine> eurderLineList, User user) {
+        this(UUID.randomUUID().toString(), eurderLineList, user);
     }
 
 
-    public Eurder(String id, List<EurderLine> eurderList, User user) {
+    public Eurder(String id, List<EurderLine> eurderLineList, User user) {
         this.id = id;
-        this.eurderList = eurderList;
+        this.eurderLineList = eurderLineList;
         this.user = user;
         totalPrice = calculatePrice();
     }
 
     private double calculatePrice() {
-        return eurderList.stream()
+        return eurderLineList.stream()
                 .map(EurderLine::getPrice)
                 .reduce(0.0, Double::sum);
     }
@@ -36,12 +34,12 @@ public class Eurder {
         this.id = id;
     }
 
-    public List<EurderLine> getEurderList() {
-        return eurderList;
+    public List<EurderLine> getEurderLineList() {
+        return eurderLineList;
     }
 
-    public void setEurderList(List<EurderLine> eurderList) {
-        this.eurderList = eurderList;
+    public void setEurderLineList(List<EurderLine> eurderLineList) {
+        this.eurderLineList = eurderLineList;
     }
 
     public User getUser() {

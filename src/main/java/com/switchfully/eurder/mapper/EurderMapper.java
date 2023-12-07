@@ -12,6 +12,6 @@ public class EurderMapper {
     }
 
     public EurderDto mapEurderToEurderDto(Eurder eurder) {
-        return new EurderDto(eurder.getId(), eurder.getEurderList(), eurder.getUser());
+        return new EurderDto(eurder.getId(), eurder.getEurderLineList(), eurder.getUser());
     }
 }

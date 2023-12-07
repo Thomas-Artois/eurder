@@ -1,6 +1,7 @@
 package com.switchfully.eurder.repository;
 
 import com.switchfully.eurder.domain.Eurder;
+import com.switchfully.eurder.domain.EurderLine;
 import com.switchfully.eurder.dto.EurderDto;
 import com.switchfully.eurder.exception.OrderDoesntExistException;
 import org.springframework.stereotype.Repository;
@@ -12,7 +13,21 @@ import java.util.stream.Collectors;
 
 @Repository
 public class EurderRepository {
+    private ItemRepository itemRepository;
+    private UserRepository userRepository;
     private Map<String, Eurder> eurders = new HashMap<>();
+
+    public EurderRepository(ItemRepository itemRepository, UserRepository userRepository) {
+        this.itemRepository = itemRepository;
+        this.userRepository = userRepository;
+        List<EurderLine> listOfEurderLines = List.of(
+                new EurderLine(itemRepository.getItemByName("Closet"), 2),
+                new EurderLine(itemRepository.getItemByName("Table"), 1)
+        );
+        List<Eurder> listOfEurders = List.of(
+                new Eurder(listOfEurderLines, userRepository.getUserByEmail("jozef@hotmail.com"))
+        );
+    }
 
     public Eurder createEurder(Eurder eurder) {
         eurders.put(eurder.getId(), eurder);

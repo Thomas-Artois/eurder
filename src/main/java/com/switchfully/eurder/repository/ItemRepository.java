@@ -37,5 +37,9 @@ public class ItemRepository {
         return items.values().stream().filter(item -> item.getId().equals(id)).findFirst().orElseThrow(ItemNotFoundException::new);
     }
 
+    public Item getItemByName(String name) {
+        return items.values().stream().filter(item -> item.getName().equals(name)).findFirst().orElseThrow(ItemNotFoundException::new);
+    }
+
 
 }

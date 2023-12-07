@@ -10,9 +10,14 @@ public class EurderLine {
     private LocalDate shippingDate;
 
     public EurderLine(Item item, int amount, LocalDate shippingDate) {
-        this.item = item;
+        this.item = new Item(item.getName(), item.getDescription(), item.getPrice(), item.getAmountInStock());
         this.amount = amount;
         this.shippingDate = shippingDate;
+    }
+
+    public EurderLine(Item item, int amount) {
+        this.item = item;
+        this.amount = amount;
     }
 
     public double getPrice() {
