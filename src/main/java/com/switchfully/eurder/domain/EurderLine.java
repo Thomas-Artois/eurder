@@ -20,6 +20,7 @@ public class EurderLine {
         this.amount = amount;
     }
 
+    //TODO Add EuderLineDto and CreateEurderLineDto?
     public double getPrice() {
         return item.getPrice()*amount;
     }
