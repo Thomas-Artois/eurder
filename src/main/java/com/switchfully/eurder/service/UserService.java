@@ -5,6 +5,7 @@ import com.switchfully.eurder.domain.User;
 import com.switchfully.eurder.dto.CreateUserDto;
 import com.switchfully.eurder.dto.UserDto;
 import com.switchfully.eurder.exception.EmailAlreadyExistsException;
+import com.switchfully.eurder.exception.NotACustomerException;
 import com.switchfully.eurder.exception.NotAnAdminException;
 import com.switchfully.eurder.exception.PasswordIsIncorrectException;
 import com.switchfully.eurder.mapper.UserMapper;
@@ -42,7 +43,7 @@ public class UserService {
         return userRepository.getAllCustomers().stream().map(user -> userMapper.mapUserToUserDto(user)).collect(Collectors.toList());
     }
 
-    public void checkIfUserIsAdmin(String email, String password) throws NotAnAdminException{
+    public void checkIfUserIsAdmin(String email, String password) throws NotAnAdminException {
         User user = userRepository.getUserByEmail(email);
         checkIfPasswordIsCorrect(user, password);
 
@@ -51,14 +52,23 @@ public class UserService {
         }
     }
 
-    public void checkIfPasswordIsCorrect(User user, String password) throws PasswordIsIncorrectException{
+    public void checkIfUserIsCustomer(String email, String password) throws NotACustomerException {
+        User user = userRepository.getUserByEmail(email);
+        checkIfPasswordIsCorrect(user, password);
+
+        if (user.getRole() != Role.CUSTOMER) {
+            throw new NotACustomerException();
+        }
+    }
+
+    public void checkIfPasswordIsCorrect(User user, String password) throws PasswordIsIncorrectException {
         if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
             throw new PasswordIsIncorrectException();
         }
     }
 
     public UserDto getCustomerBasedOnId(String id) {
-        User user =  userRepository.getCustomerBasedOnId(id);
+        User user = userRepository.getCustomerBasedOnId(id);
         return userMapper.mapUserToUserDto(user);
     }
 }
