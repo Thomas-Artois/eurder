@@ -1,5 +1,7 @@
 package com.switchfully.eurder.domain;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import java.util.UUID;
 
 public class User {
@@ -11,6 +13,7 @@ public class User {
     private String phoneNumber;
     private Role role;
     private String password;
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     public User(String firstName, String lastName, String email, Address address, String phoneNumber, Role role, String password) {
         this(UUID.randomUUID().toString(), firstName, lastName, email, address, phoneNumber, role, password);
@@ -77,5 +80,13 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
